@@ -1,0 +1,49 @@
+{
+	"name": "sveltekit_supabase_todo",
+	"version": "0.0.1",
+	"private": true,
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"test": "playwright test",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"test:unit": "vitest",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.28.1",
+		"@sveltejs/adapter-static": "^1.0.0-next.50",
+		"@sveltejs/kit": "^1.0.0-next.587",
+		"@types/js-yaml": "^4.0.5",
+		"@typescript-eslint/eslint-plugin": "^5.45.0",
+		"@typescript-eslint/parser": "^5.45.0",
+		"eslint": "^8.28.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-svelte3": "^4.0.0",
+		"js-yaml": "^4.1.0",
+		"mdsvex": "^0.10.6",
+		"prettier": "^2.8.0",
+		"prettier-plugin-svelte": "^2.8.1",
+		"rehype-autolink-headings": "^6.1.1",
+		"rehype-katex": "^6.0.2",
+		"rehype-katex-svelte": "^1.1.2",
+		"rehype-slug": "^5.1.0",
+		"remark-abbr": "^1.4.1",
+		"remark-math": "^3.0.1",
+		"svelte": "^3.54.0",
+		"svelte-check": "^2.9.2",
+		"svelte-preprocess": "^5.0.0",
+		"tslib": "^2.4.1",
+		"typescript": "^4.9.3",
+		"vite": "^4.0.0",
+		"vitest": "^0.25.3"
+	},
+	"type": "module",
+	"dependencies": {
+		"@supabase/auth-helpers-sveltekit": "^0.8.6",
+		"@supabase/supabase-js": "^2.2.3"
+	}
+}
