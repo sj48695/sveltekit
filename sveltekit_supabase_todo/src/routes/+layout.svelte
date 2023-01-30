@@ -4,6 +4,25 @@
 	import { onMount } from 'svelte';
 	// import './styles.css';
 
+	let navigation = [
+		{
+			title: "Home",
+			href: "/",
+		},
+		{
+			title: "Post",
+			href: "/posts/hello",
+		},
+		{
+			title: "Todo",
+			href: "/todos",
+		},
+		{
+			title: "Profile",
+			href: "/my/settings/profiles",
+		},
+	]
+
 	onMount(() => {
 		const {
 			data: { subscription }
@@ -20,9 +39,15 @@
 	@import '$assets/styles.css';
 </style>
 
-<div class="container" style="padding: 50px 0 100px 0">
-	<a href="/">Home</a>
-	<a href="/posts/hello">Post</a>
-	<a href="/todos">Todo</a>
-	<slot />
+<div class="flex w-full h-full">
+
+	<ul class="container" style="padding: 50px 0 100px 0">
+		{#each navigation as navItem}
+			<li>
+				<a href={navItem.href}>{navItem.title}</a>
+			</li>
+		{/each}
+		<slot />
+	</ul>
+
 </div>

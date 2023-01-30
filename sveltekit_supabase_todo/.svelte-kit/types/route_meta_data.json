@@ -6,6 +6,15 @@
 		"src/routes/+layout.ts",
 		"src/routes/+layout.server.ts"
 	],
+	"/my/settings": [
+		"src/routes/+layout.ts",
+		"src/routes/+layout.server.ts"
+	],
+	"/my/settings/profiles": [
+		"src/routes/my/settings/profiles/+page.server.ts",
+		"src/routes/+layout.ts",
+		"src/routes/+layout.server.ts"
+	],
 	"/posts/hello": [
 		"src/routes/+layout.ts",
 		"src/routes/+layout.server.ts"

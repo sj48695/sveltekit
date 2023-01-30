@@ -74,17 +74,18 @@
 	{/if}
 
 	<div style="width: {size}em;">
-		<label class="button primary block" for="single">
+		<label class="button primary block" for="avatar">
 			{uploading ? 'Uploading ...' : 'Upload'}
 		</label>
 		<input
 			style="visibility: hidden; position:absolute;"
 			type="file"
-			id="single"
+			id="avatar"
 			accept="image/*"
 			bind:files
 			on:change={uploadAvatar}
 			disabled={uploading}
 		/>
+		<input type="hidden" name="avatar" value={url}/>
 	</div>
 </div>

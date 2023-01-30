@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabaseClient';
 
-	let session = $page.data.session;
+	let session = $page.data.session || {};
 	let { user = {} } = session;
 
 	let todos: any = [{}];
@@ -18,12 +18,15 @@
 	let inputValue = '';
 
 	let getTodos = async () => {
+		if (!user?.id) return;
 		const { data, error, status } = await supabase.from('todos').select(`*`).eq('user_id', user.id);
 
-		todos = data;
-		totalTodos = todos.length;
-		completedTodos = todos.filter((todo: any) => todo.is_complete).length;
-		console.log('todos', todos);
+		if (data) {
+			todos = data;
+			totalTodos = todos.length;
+			completedTodos = todos.filter((todo: any) => todo.is_complete).length;
+			console.log('todos', todos);
+		}
 
 		if (error && status !== 406) throw error;
 	};

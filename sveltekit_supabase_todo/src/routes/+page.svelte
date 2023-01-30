@@ -26,8 +26,8 @@
 </ul> -->
 <script>
 	import { page } from '$app/stores';
-	import Account from '../components/Account.svelte';
-	import Auth from '../components/Auth.svelte';
+	import Account from './my/settings/profiles/Account.svelte';
+	import Auth from './Auth.svelte';
 </script>
 
 <svelte:head>
@@ -38,5 +38,6 @@
 {#if !$page.data.session}
 	<Auth />
 {:else}
-	<Account session={$page.data.session} />
+	<!-- <Account session={$page.data.session} /> -->
+	<div>dd</div>
 {/if}

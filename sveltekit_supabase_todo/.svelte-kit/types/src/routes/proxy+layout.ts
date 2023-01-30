@@ -1,5 +1,5 @@
 // @ts-nocheck
-export const prerender = true
+export const prerender = false
 import type { LayoutLoad } from './$types'
 import { getSupabase } from '@supabase/auth-helpers-sveltekit'
 

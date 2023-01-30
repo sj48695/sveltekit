@@ -2,9 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { AuthSession } from '@supabase/supabase-js';
 	import { supabase } from '$lib/supabaseClient';
-	// import Avatar from '$components/Avatar.svelte';
-	import Avatar from '../components/Avatar.svelte';
-
+	import Avatar from './Avatar.svelte';
 
 	export let session: AuthSession;
 
@@ -20,6 +18,7 @@
 	const getProfile = async () => {
 		try {
 			loading = true;
+			console.log("session", session)
 			const { user } = session;
 
 			const { data, error, status } = await supabase
@@ -85,19 +84,22 @@
 	}
 </script>
 
-<form class="form-widget" on:submit|preventDefault={updateProfile}>
+<!-- <form class="form-widget" on:submit|preventDefault={updateProfile}> -->
+
+<form class="form-widget"
+	action="?/updateProfile" method="POST">
 	<Avatar url={avatarUrl}/>
 	<div>
 		<label for="email">Email</label>
-		<input id="email" type="text" value={session.user.email} disabled />
+		<input id="email" name="email" type="text" value={session.user.email} disabled />
 	</div>
 	<div>
 		<label for="username">Name</label>
-		<input id="username" type="text" bind:value={username} />
+		<input id="username" name="username" type="text" bind:value={username} />
 	</div>
 	<div>
 		<label for="website">Website</label>
-		<input id="website" type="website" bind:value={website} />
+		<input id="website" name="website" type="website" bind:value={website} />
 	</div>
 
 	<div>
