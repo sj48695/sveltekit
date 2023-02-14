@@ -1,1 +1,0 @@
-import "../../../chunks/supabaseClient.js";
