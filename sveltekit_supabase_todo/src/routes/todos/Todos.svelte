@@ -23,7 +23,7 @@
 
 		if (data) {
 			todos = data;
-			totalTodos = todos.length;
+			totalTodos = todos?.length;
 			completedTodos = todos.filter((todo: any) => todo.is_complete).length;
 			console.log('todos', todos);
 		}

@@ -9,6 +9,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			sb: TypedSupabaseClient;
+			sb_admin: TypedSupabaseClient;
 			session: Session | null;
 		}
 		interface PageData {
