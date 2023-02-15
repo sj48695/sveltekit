@@ -1,8 +1,9 @@
 .env
-*/.DS_Store
-*/node_modules
-*/build
-*/.svelte-kit
-*/dist
+.DS_Store
+node_modules
+build
+.svelte-kit
+dist
+
 # Local Netlify folder
 .netlify
