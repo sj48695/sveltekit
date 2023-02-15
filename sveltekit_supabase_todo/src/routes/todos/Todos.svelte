@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabaseClient';
@@ -6,10 +6,10 @@
 	let session = $page.data.session || {};
 	let { user = {} } = session;
 
-	let todos: any = [{}];
+	let todos = [{}];
 
-	let totalTodos: any = 0;
-	let completedTodos: any = null;
+	let totalTodos = 0;
+	let completedTodos = null;
 
 	onMount(() => {
 		getTodos();
@@ -24,7 +24,7 @@
 		if (data) {
 			todos = data;
 			totalTodos = todos?.length;
-			completedTodos = todos.filter((todo: any) => todo.is_complete).length;
+			completedTodos = todos.filter((todo) => todo.is_complete).length;
 			console.log('todos', todos);
 		}
 
@@ -32,6 +32,7 @@
 	};
 
 	let addTodo = async () => {
+		if (!user?.id) return;
 		let todoItem = {
 			task: inputValue,
 			description: '',
@@ -51,8 +52,9 @@
 		inputValue = '';
 	};
 
-	let updateTodo = async (id: any, todoItem: any) => {
+	let updateTodo = async (id, todoItem) => {
 		console.log('update', id);
+		if (!user?.id) return;
 		const { data, error, status } = await supabase
 			.from('todos')
 			.update({ ...todoItem })
@@ -60,15 +62,16 @@
 			.eq('user_id', user.id)
 			.select();
 		if (data) {
-			let updatedIndex = todos.findIndex((el:any) => el.id === data[0].id);
+			let updatedIndex = todos.findIndex((el) => el.id === data[0].id);
 			todos[updatedIndex] = data[0];
 		}
 		console.log('data', data);
 		if (error && status !== 406) throw error;
 	};
 
-	let deleteTodo = async (id: any) => {
+	let deleteTodo = async (id) => {
 		console.log('delete', id);
+		if (!user?.id) return;
 		const { data, error, status } = await supabase
 			.from('todos')
 			.delete()
@@ -76,14 +79,14 @@
 			.eq('user_id', user.id)
 			.select();
 		if (data) {
-			let deletedIndex = todos.findIndex((el:any) => el.id === data[0].id);
+			let deletedIndex = todos.findIndex((el) => el.id === data[0].id);
 			todos.splice(deletedIndex, 1);
 		}
 		todos = todos;
 		if (error && status !== 406) throw error;
 	};
 
-	let editTodo = (id: any) => {
+	let editTodo = (id) => {
 		console.log('delete', id);
 	};
 </script>

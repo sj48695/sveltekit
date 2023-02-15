@@ -1,8 +1,8 @@
-<script lang="ts">
+<script>
 	import { supabase } from '$lib/supabaseClient';
 
 	let loading = false;
-	let email: string;
+	let email;
 
 	const handleLogin = async () => {
 		try {
