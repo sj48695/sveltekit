@@ -9,10 +9,8 @@ import {
 // } from "$env/static/private";
 
 const supabaseUrl = PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = PUBLIC_SUPABASE_ANON_KEY;
-const supabaseServiceRoleKey = PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
-const supabase = createClient(supabaseUrl, supabaseAnonKey)
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {});
+const supabase = createClient(supabaseUrl, PUBLIC_SUPABASE_ANON_KEY)
+const supabaseAdmin = createClient(supabaseUrl, PUBLIC_SUPABASE_SERVICE_ROLE_KEY, {});
 
 export {
   supabaseUrl,
