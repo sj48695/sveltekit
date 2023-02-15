@@ -10,6 +10,11 @@
     <ul class="menu menu-horizontal px-1">
       {#if data.session}
         <li><a href="/my">마이 페이지</a></li>
+        <li>
+          <form action="/sign_out" method="POST">
+            <button type="submit" class="btn">Logout</button>
+          </form>
+        </li>
       {:else}
         <li><a href="/sign_in">로그인</a></li>
       {/if}
