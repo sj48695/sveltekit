@@ -1,9 +1,5 @@
 <footer class="footer p-10 bg-neutral text-neutral-content mt-10">
   <div>
-    <span class="footer-title">프로젝트</span>
-    <a href="/projects/new" class="link link-hover">심사 신청</a>
-  </div>
-  <div>
     <span class="footer-title">About</span>
     <a href="/" class="link link-hover">About us</a>
     <a href="/" class="link link-hover">Contact</a>

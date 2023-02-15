@@ -8,8 +8,6 @@
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
-      <li><a href="/projects">프로젝트</a></li>
-
       {#if data.session}
         <li><a href="/my">마이 페이지</a></li>
       {:else}
