@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model Profile {
+  updated_at       DateTime?        @db.Timestamptz(6)
+  username         String?          @unique
+  full_name        String?
+  avatar_url       String?
+  role             Role             @default(USER)
+  created_at       DateTime         @default(now()) @db.Timestamptz(6)
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  Comment          Comment[]
+  Comunity         Comunity[]
+  project_managers ProjectManager[]
+  Project          Project[]
+  todos            Todo[]
+
+  @@map("profiles")
+}
+
+model Company {
+  name             String
+  created_at       DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime?        @db.Timestamptz(6)
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  project_managers ProjectManager[]
+
+  @@map("company")
+}
+
+model ProjectManager {
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  userId     String    @map("user_id") @db.Uuid
+  companyId  String    @map("company_id") @db.Uuid
+  company    Company   @relation(fields: [companyId], references: [id])
+  user       Profile   @relation(fields: [userId], references: [id])
+
+  @@id([userId, companyId])
+  @@map("project_managers")
+}
+
+model Todo {
+  title      String?
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String?   @map("user_id") @db.Uuid
+  user       Profile?  @relation(fields: [userId], references: [id])
+
+  @@map("todos")
+}
+
+model Todo2 {
+  id         String    @id @default(uuid())
+  title      String?
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+
+  @@map("todos2")
+}
+
+model Project {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title      String?
+  userId     String?   @map("user_id") @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  user       Profile?  @relation(fields: [userId], references: [id])
+
+  @@map("projects")
+}
+
+model Comment {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  message    String?
+  userId     String?   @map("user_id") @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  user       Profile?  @relation(fields: [userId], references: [id])
+
+  @@map("comments")
+}
+
+model Comunity {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title      String?
+  userId     String?   @map("user_id") @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  user       Profile?  @relation(fields: [userId], references: [id])
+
+  @@map("comunities")
+}
+
+model todos3 {
+  id    String  @id
+  title String?
+}
+
+model todos4 {
+  id    String  @id
+  title String?
+}
+
+
+model todos5 {
+  id    String  @id
+  title String?
+}
+
+enum Role {
+  USER
+  ADMIN
+}
