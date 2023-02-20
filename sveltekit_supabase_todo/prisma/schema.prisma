@@ -110,9 +110,18 @@ model todos4 {
   title String?
 }
 
-
 model todos5 {
   id    String  @id
+  title String?
+}
+
+model changhoon1 {
+  id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title String?
+}
+
+model changhoon2 {
+  id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title String?
 }
 
