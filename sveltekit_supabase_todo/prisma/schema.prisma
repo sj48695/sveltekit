@@ -8,72 +8,95 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
-model Profile {
-  updated_at       DateTime?        @db.Timestamptz(6)
+model User {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username         String?          @unique
   full_name        String?
   avatar_url       String?
-  role             Role             @default(USER)
+  phone_number     String?
+  email            String?
+  birthday         DateTime?        @db.Date
+  role             String?
   created_at       DateTime         @default(now()) @db.Timestamptz(6)
-  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  updated_at       DateTime?        @db.Timestamptz(6)
   Comment          Comment[]
-  Comunity         Comunity[]
+  Community         Community[]
+  contents         Content[]
+  faqs             FAQ[]
+  investors        investor[]
   project_managers ProjectManager[]
   Project          Project[]
+  schedules        Schedule[]
   todos            Todo[]
 
-  @@map("profiles")
+  @@map("users")
 }
 
 model Company {
-  name             String
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String?
   created_at       DateTime         @default(now()) @db.Timestamptz(6)
   updated_at       DateTime?        @db.Timestamptz(6)
-  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   project_managers ProjectManager[]
+  projects         Project[]
 
-  @@map("company")
+  @@map("companies")
 }
 
 model ProjectManager {
+  companyId  String    @map("company_id") @db.Uuid
+  userId     String    @map("user_id") @db.Uuid
+  role       String?
   created_at DateTime  @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @db.Timestamptz(6)
-  userId     String    @map("user_id") @db.Uuid
-  companyId  String    @map("company_id") @db.Uuid
   company    Company   @relation(fields: [companyId], references: [id])
-  user       Profile   @relation(fields: [userId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
 
-  @@id([userId, companyId])
+  @@id([companyId, userId])
   @@map("project_managers")
 }
 
 model Todo {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title      String?
+  userId     String?   @map("user_id") @db.Uuid
   created_at DateTime  @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @db.Timestamptz(6)
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  userId     String?   @map("user_id") @db.Uuid
-  user       Profile?  @relation(fields: [userId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id])
 
   @@map("todos")
 }
 
-model Todo2 {
-  id         String    @id @default(uuid())
-  title      String?
-  created_at DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @db.Timestamptz(6)
-
-  @@map("todos2")
-}
-
 model Project {
-  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title      String?
-  userId     String?   @map("user_id") @db.Uuid
-  created_at DateTime  @default(now()) @db.Timestamptz(6)
-  updated_at DateTime? @db.Timestamptz(6)
-  user       Profile?  @relation(fields: [userId], references: [id])
+  id                         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                       String?
+  description                String?
+  category                   String?
+  status                     String?
+  start_date                 DateTime?  @db.Timestamptz(6)
+  end_date                   DateTime?  @db.Timestamptz(6)
+  invest_amounts             Int?       @default(0)
+  min_invest_amounts         Int?       @default(0)
+  max_invest_amounts         Int?       @default(0)
+  invest_detail_type         String?
+  repayment_method           String?
+  assignment_completion_date DateTime?  @db.Timestamptz(6)
+  thumbnail                  String?
+  images                     String[]
+  acceped_at                 DateTime?  @db.Timestamptz(6)
+  rejected_at                DateTime?  @db.Timestamptz(6)
+  rejected_reason            String?
+  application_result         Json?      @db.Json
+  userId                     String     @map("user_id") @db.Uuid
+  company_id                 String     @db.Uuid
+  created_at                 DateTime   @default(now()) @db.Timestamptz(6)
+  updated_at                 DateTime?  @db.Timestamptz(6)
+  contents                   Content[]
+  faqs                       FAQ[]
+  investors                  investor[]
+  companies                  Company    @relation(fields: [company_id], references: [id])
+  user                       User       @relation(fields: [userId], references: [id])
+  schedules                  Schedule[]
 
   @@map("projects")
 }
@@ -84,45 +107,83 @@ model Comment {
   userId     String?   @map("user_id") @db.Uuid
   created_at DateTime  @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @db.Timestamptz(6)
-  user       Profile?  @relation(fields: [userId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id])
 
   @@map("comments")
 }
 
-model Comunity {
+model Community {
   id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title      String?
   userId     String?   @map("user_id") @db.Uuid
   created_at DateTime  @default(now()) @db.Timestamptz(6)
   updated_at DateTime? @db.Timestamptz(6)
-  user       Profile?  @relation(fields: [userId], references: [id])
+  user       User?     @relation(fields: [userId], references: [id])
 
-  @@map("comunities")
+  @@map("communities")
 }
 
-model todos3 {
-  id    String  @id
-  title String?
+model Content {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  project_id  String?   @db.Uuid
+  user_id     String    @db.Uuid
+  title       String?
+  sub_title   String?
+  description String?
+  order       Int?      @default(0)
+  type        String?
+  link_url    String?
+  thumbnail   String?
+  images      String[]
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @db.Timestamptz(6)
+  project     Project?  @relation(fields: [project_id], references: [id])
+  user        User      @relation(fields: [user_id], references: [id])
+
+  @@map("contents")
 }
 
-model todos4 {
-  id    String  @id
-  title String?
+model FAQ {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  project_id String?   @db.Uuid
+  user_id    String    @db.Uuid
+  question   String?
+  answer     String?
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  project    Project?  @relation(fields: [project_id], references: [id])
+  user       User      @relation(fields: [user_id], references: [id])
+
+  @@map("faqs")
 }
 
-model todos5 {
-  id    String  @id
-  title String?
+model investor {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  status     String?
+  acceped_at DateTime? @db.Timestamptz(6)
+  project_id String    @db.Uuid
+  user_id    String    @db.Uuid
+  created_at DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at DateTime? @db.Timestamptz(6)
+  project    Project   @relation(fields: [project_id], references: [id], map: "investors_project_id_fkey")
+  user       User      @relation(fields: [user_id], references: [id], map: "investors_user_id_fkey")
+
+  @@map("investors")
 }
 
-model changhoon1 {
-  id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title String?
-}
+model Schedule {
+  id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  project_id  String    @db.Uuid
+  user_id     String    @db.Uuid
+  title       String?
+  description String?
+  date        DateTime? @db.Timestamptz(6)
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime? @db.Timestamptz(6)
+  project     Project   @relation(fields: [project_id], references: [id])
+  user        User      @relation(fields: [user_id], references: [id])
 
-model changhoon2 {
-  id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title String?
+  @@map("schedules")
 }
 
 enum Role {
